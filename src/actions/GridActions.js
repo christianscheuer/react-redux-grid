@@ -348,12 +348,25 @@ export const resizeColumns = ({
 
     const cols = columns.map((col) => {
 
-        if (col.id === id) {
-            col.width = `${width}%`;
-        }
+        if (true /* CMS STYLE COLUMNS */)
+        {
+            if (col.id === id) {
+                col.width = `${width}px`;
+            }
 
-        else if (col.id === nextColumn.id) {
-            col.width = `${nextColumn.width}%`;
+            else if (nextColumn && col.id === nextColumn.id) {
+                col.width = `${nextColumn.width}px`;
+            }
+        }
+        else
+        {
+            if (col.id === id) {
+                col.width = `${width}%`;
+            }
+
+            else if (col.id === nextColumn.id) {
+                col.width = `${nextColumn.width}%`;
+            }
         }
 
         return col;

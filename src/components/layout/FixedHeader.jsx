@@ -399,37 +399,59 @@ export const handleDrag = (
     let width = computedWidth * 100;
     let nextColWidth = Math.abs(width - totalWidth);
 
-    const isInvalidDrag = width + nextColWidth > totalWidth;
+    if (false)
+    {
 
-    if (nextColWidth < 0 || width < 0) {
-        return false;
+        const isInvalidDrag = width + nextColWidth > totalWidth;
+
+        if (nextColWidth < 0 || width < 0) {
+            return false;
+        }
+
+        if (nextColWidth < columnManager.config.minColumnWidth) {
+            nextColWidth = columnManager.config.minColumnWidth;
+            width = totalWidth - columnManager.config.minColumnWidth;
+        }
+
+        else if (width < columnManager.config.minColumnWidth) {
+            width = columnManager.config.minColumnWidth;
+            nextColWidth = totalWidth - columnManager.config.minColumnWidth;
+        }
+
+        else if (isInvalidDrag) {
+            return false;
+        }
+
+        store.dispatch(resizeColumns({
+            width,
+            id,
+            nextColumn: {
+                id: nextColumnKey,
+                width: nextColWidth
+            },
+            columns,
+            stateKey,
+            stateful
+        }));
+
     }
+    else
+    {
 
-    if (nextColWidth < columnManager.config.minColumnWidth) {
-        nextColWidth = columnManager.config.minColumnWidth;
-        width = totalWidth - columnManager.config.minColumnWidth;
+        //CMS style column resizing...
+        store.dispatch(resizeColumns({
+            width: (xCoord - columnOffsetLeft),
+            id,
+            /*nextColumn: {
+                id: nextColumnKey,
+                width: nextColWidth
+            },*/
+            columns,
+            stateKey,
+            stateful
+        }));
+
     }
-
-    else if (width < columnManager.config.minColumnWidth) {
-        width = columnManager.config.minColumnWidth;
-        nextColWidth = totalWidth - columnManager.config.minColumnWidth;
-    }
-
-    else if (isInvalidDrag) {
-        return false;
-    }
-
-    store.dispatch(resizeColumns({
-        width,
-        id,
-        nextColumn: {
-            id: nextColumnKey,
-            width: nextColWidth
-        },
-        columns,
-        stateKey,
-        stateful
-    }));
 
 };
 
