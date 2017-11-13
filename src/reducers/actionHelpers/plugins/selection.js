@@ -17,7 +17,9 @@ export const deselectAll = (state, { stateKey }) =>
 
 export const removeSelections = (state, { stateKey }) =>
     getUpdatedRecord(state, stateKey, {
-        lastUpdate: generateLastUpdate()
+        lastUpdate: generateLastUpdate(),
+        indexes: [0],
+        'row-0': true,
     }, Selection);
 
 export const selectRow = (state, { rowId, stateKey }) =>
