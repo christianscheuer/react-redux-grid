@@ -15,12 +15,16 @@ export const deselectAll = (state, { stateKey }) =>
         indexes: []
     }, Selection);
 
-export const removeSelections = (state, { stateKey }) =>
-    getUpdatedRecord(state, stateKey, {
+export const removeSelections = (state, { data, stateKey }) =>
+    data.dataVersion > state.lastDataVersion ? getUpdatedRecord(state, stateKey, {
         lastUpdate: generateLastUpdate(),
+        lastDataVersion: data.dataVersion,
         indexes: [0],
         'row-0': true,
-    }, Selection);
+    }, Selection) :
+    getUpdatedRecord(state, stateKey, {
+        lastUpdate: generateLastUpdate()
+    }, Selection, 'mergeIn');
 
 export const selectRow = (state, { rowId, stateKey }) =>
     getUpdatedRecord(state, stateKey, {
